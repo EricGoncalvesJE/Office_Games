@@ -1,0 +1,239 @@
+/* Modern Dark Theme with Blue/Gray Tones */
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  background: linear-gradient(135deg, #0c1726 0%, #0a1a2d 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #e3f2fd;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Animated background elements */
+body::before {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(42, 129, 204, 0.08) 0%,
+    transparent 70%
+  );
+  animation: pulse 15s infinite alternate;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0.3;
+  }
+}
+
+.container {
+  background: rgba(22, 40, 65, 0.85);
+  padding: 2.5rem;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(5, 18, 32, 0.6),
+    inset 0 0 0 1px rgba(64, 156, 255, 0.15);
+  text-align: center;
+  width: 100%;
+  max-width: 420px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(80, 168, 252, 0.1);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  z-index: 2;
+}
+
+h1 {
+  margin-bottom: 18px;
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #a4d5ff;
+  text-shadow: 0 0 15px rgba(86, 180, 255, 0.3), 0 4px 6px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.5px;
+  position: relative;
+  padding-bottom: 0.8rem;
+  animation: glow 4s ease-in-out infinite;
+}
+
+h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #3a8dff, transparent);
+  border-radius: 50%;
+}
+
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 10px rgba(86, 180, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(86, 180, 255, 0.8),
+      0 0 30px rgba(86, 180, 255, 0.6);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(86, 180, 255, 0.5);
+  }
+}
+
+.puzzle-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+  margin-top: 1.8rem;
+}
+
+.puzzle-link {
+  background: linear-gradient(135deg, #1a3d5d 0%, #15314d 100%);
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: #d6edff;
+  font-weight: 600;
+  font-size: 1.15rem;
+  box-shadow: 0 4px 15px rgba(5, 25, 45, 0.4),
+    inset 0 0 0 1px rgba(100, 180, 255, 0.2);
+  border: none;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.puzzle-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(86, 180, 255, 0.2),
+    transparent
+  );
+  transition: 0.6s;
+}
+
+.puzzle-link:hover {
+  background: linear-gradient(135deg, #215a8a 0%, #1a4770 100%);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(10, 70, 150, 0.5),
+    inset 0 0 0 1px rgba(120, 200, 255, 0.3);
+}
+
+.puzzle-link:hover::before {
+  left: 100%;
+}
+
+.puzzle-link:active {
+  transform: translateY(1px);
+}
+
+/* Micro-interaction icon */
+.puzzle-link i {
+  font-size: 1.3rem;
+  transition: transform 0.3s ease;
+}
+
+.puzzle-link:hover i {
+  transform: rotate(10deg) scale(1.15);
+}
+
+.home-button {
+  display: flex;
+  justify-content: center;
+  margin: 2px auto 6px;
+  width: 100%;
+}
+
+.home-button button {
+  background: linear-gradient(135deg, #1a3d5d 0%, #15314d 100%);
+  border-radius: 12px;
+  padding: 8px 18px;
+  text-decoration: none;
+  color: #d6edff;
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 0 4px 15px rgba(5, 25, 45, 0.4);
+  border: 1px solid rgba(80, 168, 252, 0.2);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+.home-button button:hover {
+  background: linear-gradient(135deg, #215a8a 0%, #1a4770 100%);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(10, 70, 150, 0.5);
+}
+
+.home-button button:active {
+  transform: translateY(1px);
+}
+
+/* Mobile optimization */
+@media (max-width: 600px) {
+  .home-button button {
+    padding: 12px 24px;
+    font-size: 1rem;
+  }
+
+  .container {
+    padding: 1.8rem 1.2rem;
+    max-width: 95vw;
+    border-radius: 16px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .puzzle-link {
+    padding: 1.1rem;
+    font-size: 1rem;
+  }
+
+  body::before {
+    animation: none;
+  }
+}
+
+/* Glow animation for headers */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 10px rgba(86, 180, 255, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(86, 180, 255, 0.8),
+      0 0 30px rgba(86, 180, 255, 0.6);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(86, 180, 255, 0.5);
+  }
+}
+
+h1 {
+  animation: glow 4s ease-in-out infinite;
+}

@@ -1,0 +1,202 @@
+/* Sliding Puzzle Styles with Modern Dark Theme */
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: linear-gradient(135deg, #0c1726 0%, #0a1a2d 100%);
+  color: #e3f2fd;
+  position: relative;
+  overflow-x: hidden;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Animated background elements */
+body::before {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(42, 129, 204, 0.08) 0%,
+    transparent 70%
+  );
+  animation: pulse 15s infinite alternate;
+  z-index: -1;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0.3;
+  }
+}
+
+#sliding-puzzle {
+  display: grid;
+  grid-template-columns: repeat(7, 48px);
+  grid-template-rows: repeat(7, 48px);
+  gap: 4px;
+  margin: 40px auto;
+  width: fit-content;
+  background: rgba(22, 40, 65, 0.6);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(5, 18, 32, 0.6),
+    inset 0 0 0 1px rgba(64, 156, 255, 0.15);
+  padding: 15px;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(80, 168, 252, 0.1);
+}
+
+.tile {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a3d5d 0%, #15314d 100%);
+  border-radius: 8px;
+  font-size: 1.2em;
+  font-weight: 600;
+  user-select: none;
+  cursor: pointer;
+  color: #d6edff;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 10px rgba(5, 25, 45, 0.3),
+    inset 0 0 0 1px rgba(100, 180, 255, 0.2);
+  border: 1px solid rgba(80, 168, 252, 0.1);
+}
+
+.tile.empty {
+  background: rgba(12, 23, 38, 0.4);
+  border: 1px solid rgba(80, 168, 252, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(100, 180, 255, 0.05);
+  cursor: default;
+}
+
+.tile:hover:not(.empty) {
+  background: linear-gradient(135deg, #215a8a 0%, #1a4770 100%);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(10, 70, 150, 0.4),
+    inset 0 0 0 1px rgba(120, 200, 255, 0.3);
+}
+
+/* Modern dark mode popup styles */
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(1, 32, 48, 0.75);
+  z-index: 1000;
+}
+
+.popup-content {
+  background: rgba(22, 40, 65, 0.95);
+  color: #d6edff;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(5, 18, 32, 0.6);
+  text-align: center;
+  min-width: 300px;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(80, 168, 252, 0.2);
+}
+
+#popup-message {
+  display: block;
+  margin-bottom: 28px;
+  font-size: 1.4em;
+  font-weight: 600;
+  color: #a4d5ff;
+  text-shadow: 0 0 10px rgba(86, 180, 255, 0.3);
+}
+
+.popup-content button {
+  display: block;
+  margin: 0 auto;
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #1a3d5d 0%, #15314d 100%);
+  color: #d6edff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1em;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(5, 25, 45, 0.4),
+    inset 0 0 0 1px rgba(100, 180, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.popup-content button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(86, 180, 255, 0.2),
+    transparent
+  );
+  transition: 0.6s;
+}
+
+.popup-content button:hover {
+  background: linear-gradient(135deg, #215a8a 0%, #1a4770 100%);
+  color: #ffffff;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(10, 70, 150, 0.5),
+    inset 0 0 0 1px rgba(120, 200, 255, 0.3);
+}
+
+.popup-content button:hover::before {
+  left: 100%;
+}
+
+.popup-content button:active {
+  transform: translateY(1px);
+}
+
+/* Mobile optimization */
+@media (max-width: 600px) {
+  body::before {
+    animation: none;
+  }
+
+  #sliding-puzzle {
+    grid-template-columns: repeat(7, 32px);
+    grid-template-rows: repeat(7, 32px);
+    gap: 2px;
+    padding: 10px;
+  }
+
+  .tile {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9em;
+  }
+
+  .popup-content {
+    padding: 24px;
+    min-width: 260px;
+  }
+}
