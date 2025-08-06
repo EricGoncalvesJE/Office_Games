@@ -1,10 +1,31 @@
-const ROWS = 7;
-const COLS = 7;
-const TOTAL = ROWS * COLS; // 49
+const ROWS = 5;
+const COLS = 5;
+const TOTAL = ROWS * COLS;
 
-// 1) A tiny linear-congruential generator (LCG) for deterministic randomness
+function checkWin(tiles) {
+  for (let i = 0; i < TOTAL - 1; i++) {
+    if (tiles[i] !== i + 1) return;
+  }
+  if (tiles[TOTAL - 1] === null) {
+    setTimeout(() => {
+      document.getElementById("popup-message").textContent =
+        "Congratulations! The first number is 4. Keep it safe";
+      document.getElementById("popup").style.display = "flex";
+
+      // Save progress
+      if (saveProgressCookie("level1")) {
+      } else {
+        // Fallback: Show message to user
+        document.getElementById("popup-message").textContent +=
+          "\n(Progress might not be saved in private browsing)";
+      }
+    }, 300);
+  }
+}
+
+// Seeded RNG for deterministic randomness
 function makeSeededRNG(seed) {
-  const m = 0x80000000; // 2^31
+  const m = 0x80000000;
   const a = 1103515245;
   const c = 12345;
   let state = seed;
@@ -14,7 +35,7 @@ function makeSeededRNG(seed) {
   };
 }
 
-// 2) Fisher-Yates shuffle, but using our seeded RNG
+// Fisher-Yates shuffle with seeded RNG
 function seededShuffle(array, rng) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(rng() * (i + 1));
@@ -23,7 +44,7 @@ function seededShuffle(array, rng) {
   return array;
 }
 
-// 3) Count inversions (ignoring the null tile)
+// Count inversions (ignoring the empty tile)
 function countInversions(arr) {
   let inv = 0;
   const flat = arr.filter((v) => v !== null);
@@ -35,11 +56,12 @@ function countInversions(arr) {
   return inv;
 }
 
-// 4) For odd-width boards, solvable iff inversion count is even
+// Solvable if inversion count is even (for odd grid size)
 function isSolvable(arr) {
   return countInversions(arr) % 2 === 0;
 }
 
+// Check if two tiles are adjacent
 function isAdjacent(idx1, idx2) {
   const r1 = Math.floor(idx1 / COLS),
     c1 = idx1 % COLS;
@@ -48,6 +70,7 @@ function isAdjacent(idx1, idx2) {
   return Math.abs(r1 - r2) + Math.abs(c1 - c2) === 1;
 }
 
+// Render puzzle tiles
 function renderPuzzle(tiles, container) {
   container.innerHTML = "";
   tiles.forEach((num, idx) => {
@@ -67,6 +90,7 @@ function renderPuzzle(tiles, container) {
   });
 }
 
+// Check win condition
 function checkWin(tiles) {
   for (let i = 0; i < TOTAL - 1; i++) {
     if (tiles[i] !== i + 1) return;
@@ -74,31 +98,38 @@ function checkWin(tiles) {
   if (tiles[TOTAL - 1] === null) {
     setTimeout(() => {
       document.getElementById("popup-message").textContent =
-        "Congrats, the first number is 4";
+        "Congratulations! The first number is 4. Keep it safe";
       document.getElementById("popup").style.display = "flex";
-    }, 100);
+    }, 300);
   }
 }
 
+// Initialize on load
 document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("sliding-puzzle");
 
-  // Build the “solved” tile array: [1,2,3…48,null]
+  // Generate tiles [1,2,3...24,null]
   let tiles = Array.from({ length: TOTAL - 1 }, (_, i) => i + 1);
   tiles.push(null);
 
-  // Pick any fixed seed you like (e.g. based on date, username, etc.)
-  const SEED = 123456;
+  // Generate random seed for each session
+  const SEED = Math.floor(Math.random() * 1000000);
   const rng = makeSeededRNG(SEED);
 
-  // Shuffle once, then ensure solvability
+  // Shuffle and ensure solvability
   seededShuffle(tiles, rng);
   if (!isSolvable(tiles)) {
-    // Swap any two non-null tiles to flip parity
     const swapA = 0;
     const swapB = 1;
     [tiles[swapA], tiles[swapB]] = [tiles[swapB], tiles[swapA]];
   }
 
   renderPuzzle(tiles, container);
+
+  // Close popup handler
+  document
+    .querySelector(".popup-content button")
+    .addEventListener("click", () => {
+      document.getElementById("popup").style.display = "none";
+    });
 });
